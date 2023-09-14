@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
+import AddPage from "./pages/AddPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/not' element={<NotFoundPage />} />
+        <Route path='/add' element={<AddPage />} />
       </Routes>
 
       

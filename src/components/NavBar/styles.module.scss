@@ -1,3 +1,23 @@
+.NavBar
+{
+   display: flex !important;
+   justify-content: space-between !important;
+
+}
+
+.logo 
+{
+   width: 15%;
+   
+}
+
+.links
+{
+   display: flex;
+   gap: 1.3rem;
+
+}
+
 .NavLink
 {
    color: black;
@@ -9,4 +29,10 @@
    display: flex;
    gap: 20px;
    text-decoration: none;
+}
+
+.collapse 
+{
+   display: flex;
+   justify-content: right;
 }

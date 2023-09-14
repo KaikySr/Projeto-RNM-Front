@@ -1,0 +1,25 @@
+.main
+{
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.card
+{
+    width: 40%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem;
+    border-radius: 20px;
+    background-color: whitesmoke;
+    box-shadow: 3px 3px 20px  black;
+}
+
