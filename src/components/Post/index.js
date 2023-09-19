@@ -1,53 +1,60 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Container } from 'react-bootstrap'
 import { AiOutlineLike } from 'react-icons/ai'
-import styles from './style.module.scss';
+import styles from './styles.module.scss';
+import axios from 'axios';
 
-export default function Post() {
+export default function Post() 
+{
+    var [page, setPage] = useState(1);
     var [artigos, setArtigos] = useState([]);
-    function getPosts() {
-        setArtigos([
-            {
-                id: 1,
-                title: 'teste 1',
-                text: 'Teste',
-                likes: 10
-            },
-            {
-                id: 2,
-                title: 'teste 2',
-                text: 'Teste 2',
-                likes: 5
-            },
-        ])
+
+    async function getPosts() {
+        const res = await axios.get(`http://localhost:8080/api/article/${page}`)
+        setArtigos(res.data)
     }
+
     useEffect(() => {
         getPosts();
-    }, [])
+    }, [page])
 
-    const RenderPosts = () => 
-    {
-        return artigos.map((artigo) => 
-        {
+    async function handleClick(id) {
+        await axios.post(`http://localhost:8080/api/article/like/${id}`)
+        getPosts();
+    }
+    function handleUp() {
+        if (artigos.length === 5) {
+            setPage(++page)
+        }
+    }
+    function handleDown() {
+        if (page > 1) {
+            setPage(--page)
+        }
+    }
+    const RenderPosts = () => {
+        return artigos.map((article) => {
             return (
-                <Card key={artigo.id} className={styles.card} >
+                <Card key={article._id} className={styles.card} >
                     <Card.Title className={styles.card__title}>
-                        {artigo.title}
+                        {article.title}
                     </Card.Title>
                     <Card.Body className={styles.card__body}>
-                        <Card.Text className={styles.card__body__article}>{artigo.text}</Card.Text>
+                        <Card.Text className={styles.card__body__article}>{article.text}</Card.Text>
                         <div className='d-flex align-items-center '>
-                            {artigo.likes}<Button variant='light'><AiOutlineLike /></Button>
+                            {article.likes}<Button variant='light' onClick={() => handleClick(article._id)}><AiOutlineLike /></Button>
                         </div>
                     </Card.Body>
                 </Card>
             )
         })
     }
-
     return (
         <Container>
             <RenderPosts />
+            <Button onClick={handleDown}>-</Button>
+            {page}
+            <Button onClick={handleUp}>+</Button>
         </Container>
     )
 }

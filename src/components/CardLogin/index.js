@@ -3,16 +3,37 @@ import { Button, Card, Form } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { AlertContext } from "../../context/alert";
+import { SECRET } from "../../env";
+import CryptoJS from 'crypto-js';
+import axios from 'axios';
+
 export default function CardLogin() {
     const { setMessage, setShow, setVariant } = useContext(AlertContext);
     const navigate = useNavigate();
     var [email, setEmail] = useState('');
-    var [pass, setPass] = useState('');
-    function handleSubmit(e) {
+    var [password, setPass] = useState('');
+
+    async function handleSubmit(e) 
+    {
         e.preventDefault();
         if (!formValid()) return
-        navigate('/home')
+        const json = {
+            email, password
+        }
+        try {
+            // const jsonCrypt = CryptoJS.AES.encrypt(JSON.stringify(json), SECRET).toString();
+            var res = await axios.post('http://localhost:8080/api/user/login', {
+                json
+            })
+            sessionStorage.setItem('token', res.data.token);
+            navigate('/home')
+        } catch (error) {
+            setMessage('Erro ao se conectar');
+            setShow(true);
+            setVariant('danger');
+        }
     }
+
     function formValid() {
         if (!email.includes('@')) {
             setMessage('Insira um e-mail válidos')
@@ -26,8 +47,10 @@ export default function CardLogin() {
             setVariant('danger')
             return false;
         }
+
         return true
     }
+
     return (
         <Card className={styles.card}>
             <Card.Header className={styles.card__header}>
@@ -44,7 +67,7 @@ export default function CardLogin() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <Form.Control
-                        value={pass}
+                        value={password}
                         placeholder="Insira sua senha"
                         onChange={(e) => setPass(e.target.value)}
                     />

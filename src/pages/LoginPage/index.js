@@ -1,7 +1,7 @@
 import { Col, Row } from 'react-bootstrap';
 import CardLogin from '../../components/CardLogin';
 import styles from './styles.module.scss';
-import AlertComponent from '../../components/Alert';
+import AlertComponent from '../../components/AlertComponent';
 export default function LoginPage() {
     return (
         <Col className={styles.container}>

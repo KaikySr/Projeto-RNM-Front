@@ -1,23 +1,52 @@
 import { useContext, useState } from "react";
-import {
-    Button,
-    Card,
-    Form
-} from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import axios from 'axios';
 import styles from './styles.module.scss';
 import { AlertContext } from "../../context/alert";
-export default function CardRegister() {
+import { SECRET } from "../../env";
+import CryptoJS from 'crypto-js';
+
+export default function CardRegister() 
+{
     const { setMessage, setShow, setVariant } = useContext(AlertContext);
     var [name, setName] = useState('');
     var [email, setEmail] = useState('');
     var [birth, setBirth] = useState(Date())
     var [password, setPassword] = useState('');
-    var [confirmPass, setConfirmPass] = useState('');
-    function handleSubmit(e) {
+    var [confirmPassword, setConfirmPass] = useState('');
+    
+
+    async function handleSubmit(e) 
+    {
         e.preventDefault();
         if (!formValid()) return
+
+        const json = 
+        {
+            name, email, password, confirmPassword
+        }
+
+        // const jsonCrypt = CryptoJS.AES.encrypt(JSON.stringify(json), SECRET).toString();
+       
+        try {
+            var res = await axios.post('http://localhost:8080/api/user/register', {
+                json
+            })
+            console.log(res)
+            setMessage(res.data.message);
+            setVariant('success')
+            setShow(true);
+            setName('');
+            setEmail('');
+            setPassword('');
+            setConfirmPass('');
+        } 
+        catch (error) 
+        {
+            console.log(error);
+        }
     }
+
     function formValid() {
         if (!name.includes(' ')) {
             setMessage('Insira nome e sobrenome')
@@ -43,7 +72,7 @@ export default function CardRegister() {
             setVariant('danger')
             return false;
         }
-        if (confirmPass !== password) {
+        if (confirmPassword !== password) {
             setMessage('As senhas não conferem')
             setShow(true);
             setVariant('danger')
@@ -55,8 +84,10 @@ export default function CardRegister() {
             setVariant('danger')
             return false
         };
+
         return true
     }
+
     return (
         <Card className={styles.card}>
             <Card.Header className={styles.card__header}>
@@ -94,7 +125,7 @@ export default function CardRegister() {
                     <Form.Label>Confirme sua senha</Form.Label>
                     <Form.Control
                         type="password"
-                        value={confirmPass}
+                        value={confirmPassword}
                         onChange={(e) => setConfirmPass(e.target.value)}
                     />
                     <Button
