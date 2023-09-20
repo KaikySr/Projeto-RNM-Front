@@ -19,7 +19,8 @@ export default function Post()
     }, [page])
 
     async function handleClick(id) {
-        await axios.post(`http://localhost:8080/api/article/like/${id}`)
+        const token = sessionStorage.getItem("token")
+        await axios.post(`http://localhost:8080/api/article/like/${id}`, {token})
         getPosts();
     }
     function handleUp() {
@@ -42,7 +43,7 @@ export default function Post()
                     <Card.Body className={styles.card__body}>
                         <Card.Text className={styles.card__body__article}>{article.text}</Card.Text>
                         <div className='d-flex align-items-center '>
-                            {article.likes}<Button variant='light' onClick={() => handleClick(article._id)}><AiOutlineLike /></Button>
+                            {article.likes.length}<Button variant='light' onClick={() => handleClick(article._id)}><AiOutlineLike /></Button>
                         </div>
                     </Card.Body>
                 </Card>
@@ -50,7 +51,7 @@ export default function Post()
         })
     }
     return (
-        <Container>
+        <Container className={styles.main}>
             <RenderPosts />
             <Button onClick={handleDown}>-</Button>
             {page}

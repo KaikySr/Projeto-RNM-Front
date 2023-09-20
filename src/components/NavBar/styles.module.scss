@@ -1,14 +1,12 @@
-.NavBar
+.navbar
 {
-   display: flex !important;
-   justify-content: space-between !important;
-
+   display: flex;
+   justify-content: space-around !important;
 }
 
 .logo 
 {
    width: 200px;
-   
 }
 
 .links
@@ -24,15 +22,3 @@
    text-decoration: none;
 }
 
-.NavContent
-{
-   display: flex;
-   gap: 20px;
-   text-decoration: none;
-}
-
-.collapse 
-{
-   display: flex;
-   justify-content: right;
-}
