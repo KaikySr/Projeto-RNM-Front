@@ -53,30 +53,41 @@ export default function CardLogin() {
 
     return (
         <Card className={styles.card}>
-            <Card.Header className={styles.card__header}>
+            <Card.Header className={styles.header}>
                 <Card.Title>Login</Card.Title>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className={styles.body}>
                 <Form
-                    className={styles.card__form}
                     onSubmit={handleSubmit}
+                    className={styles.form}
                 >
-                    <Form.Control
-                        value={email}
-                        placeholder="Insira seu e-mail"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <Form.Control
-                        value={password}
-                        placeholder="Insira sua senha"
-                        onChange={(e) => setPass(e.target.value)}
-                    />
-                    <Button
-                        className={styles.card__form__button}
-                        type='submit'
-                    >
-                        Entrar
-                    </Button>
+                    <div className={styles.inputEmail}>
+                        <span>Seu e-mail</span>
+                        <Form.Control
+                            value={email}
+                            placeholder="fulano01@gmail.com"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+                    <div className={styles.inputSenha}>
+                        <span>Sua senha</span>
+                        <Form.Control
+                            value={password}
+                            placeholder="Bananas@22"
+                            onChange={(e) => setPass(e.target.value)}
+                        />
+                    </div>
+                    <div className={styles.button}>
+                        <Button
+                            type='submit'
+                        >
+                            Entrar
+                        </Button>
+                    </div>
+                    <div>
+                        <span>Ainda não tem uma conta?</span>
+                        <button>Cadastrar</button>
+                    </div>
                 </Form>
             </Card.Body>
         </Card>
